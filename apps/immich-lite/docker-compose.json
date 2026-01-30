@@ -4,6 +4,7 @@
     "immich": {
       "image": "ghcr.io/immich-app/immich-server:release",
       "container_name": "immich_server_lite",
+      "restart": "unless-stopped",
       "volumes": [
         "/mnt/1TB_HDD/immich:/usr/src/app/upload",
         "/etc/localtime:/etc/localtime:ro"
@@ -15,54 +16,47 @@
         "DB_PASSWORD": "${APP_PASSWORD}",
         "DB_DATABASE_NAME": "immich",
         "REDIS_HOSTNAME": "immich-redis",
-        "IMMICH_MACHINE_LEARNING_ENABLED": "false"
+        "IMMICH_MACHINE_LEARNING_ENABLED": "false",
+        "IMMICH_METRICS": "false"
       },
-      "devices": [
-        "/dev/dri:/dev/dri"
-      ],
-      "depends_on": [
-        "immich-redis",
-        "immich-db"
+      "ports": [
+        "${APP_PORT}:2283"
       ],
       "networks": [
         "tipi_main_network",
         "default"
       ],
-      "ports": [
-        "${APP_PORT}:2283"
+      "depends_on": [
+        "immich-redis",
+        "immich-db"
+      ],
+      "devices": [
+        "/dev/dri:/dev/dri"
       ],
       "labels": {
         "runtipi.managed": "true",
         "runtipi.appurn": "immich-lite"
       },
-      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
       "deploy": {
         "resources": {
           "limits": {
-            "cpus": "2.0",
-            "memory": "4096M"
+            "cpus": "1.50",
+            "memory": "3072M"
           }
         }
       }
     },
-    "immich-redis": {
-      "image": "redis:6.2",
-      "container_name": "immich_redis_lite",
-      "healthcheck": {
-        "test": "redis-cli ping || exit 1"
-      },
-      "networks": [
-        "default"
-      ],
-      "labels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
-      },
-      "restart": "unless-stopped"
-    },
     "immich-db": {
       "image": "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0",
       "container_name": "immich_db_lite",
+      "restart": "unless-stopped",
       "volumes": [
         "${APP_DATA_DIR}/data/db:/var/lib/postgresql/data"
       ],
@@ -79,13 +73,41 @@
         "runtipi.managed": "true",
         "runtipi.appurn": "immich-lite"
       },
-      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
       "deploy": {
         "resources": {
           "limits": {
-            "cpus": "2.0",
-            "memory": "2048M"
+            "cpus": "1.50",
+            "memory": "1536M"
           }
+        }
+      }
+    },
+    "immich-redis": {
+      "image": "redis:6.2",
+      "container_name": "immich_redis_lite",
+      "restart": "unless-stopped",
+      "healthcheck": {
+        "test": "redis-cli ping || exit 1"
+      },
+      "networks": [
+        "default"
+      ],
+      "labels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      },
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
         }
       }
     }
