@@ -24,6 +24,7 @@
       ],
       "environment": {
         "NODE_ENV": "production",
+        "HOST": "0.0.0.0",
         "DB_HOSTNAME": "immich-db",
         "DB_USERNAME": "tipi",
         "DB_PASSWORD": "${DB_PASSWORD}",
@@ -34,7 +35,7 @@
         "IMMICH_METRICS": "false"
       },
       "ports": [
-        "${APP_PORT}:2283"
+        "8128:2283"
       ],
       "networks": [
         "tipi_main_network",
