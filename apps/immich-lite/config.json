@@ -6,7 +6,7 @@
   "port": 8128,
   "id": "immich-lite",
   "tipi_version": 1,
-  "version": "v2.5.0",
+  "version": "latest",
   "categories": ["data", "photography"],
   "description": "The usual Immich,  but with no machine learning. Perfect for limited resources home servers.",
   "short_desc": "Immich Lite (no ML)",
