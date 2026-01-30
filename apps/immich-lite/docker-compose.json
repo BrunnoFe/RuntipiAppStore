@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "services": [
+    {
+      "name": "immich_server_noml",
+      "image": "ghcr.io/immich-app/immich-server:release",
+      "environment": [
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "DB_HOSTNAME",
+          "value": "immich-db"
+        },
+        {
+          "key": "DB_USERNAME",
+          "value": "tipi"
+        },
+        {
+          "key": "DB_PASSWORD",
+          "value": "${APP_PASSWORD}"
+        },
+        {
+          "key": "DB_DATABASE_NAME",
+          "value": "immich"
+        },
+        {
+          "key": "REDIS_HOSTNAME",
+          "value": "immich-redis"
+        },
+        {
+          "key": "IMMICH_MACHINE_LEARNING_ENABLED",
+          "value": "false"
+        }
+      ],
+      "internalPort": 2283,
+      "volumes": [
+        {
+          "hostPath": "/mnt/1TB_HDD/immich",
+          "containerPath": "/usr/src/app/upload",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        },
+        {
+          "hostPath": "/etc/localtime",
+          "containerPath": "/etc/localtime",
+          "readOnly": true,
+          "shared": false,
+          "private": false
+        }
+      ],
+      "devices": [
+        "/dev/dri:/dev/dri"
+      ],
+      "deploy": {
+        "resources": {
+          "limits": {
+            "cpus": "2.0",
+            "memory": "4096M"
+          }
+        }
+      },
+      "dependsOn": [
+        "immich-redis",
+        "immich-db"
+      ],
+      "extraLabels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      }
+    },
+    {
+      "name": "immich_redis_lite",
+      "image": "redis:6.2",
+      "healthCheck": {
+        "test": "redis-cli ping || exit 1"
+      },
+      "extraLabels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      }
+    },
+    {
+      "name": "immich_db_lite",
+      "image": "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0",
+      "environment": [
+        {
+          "key": "POSTGRES_PASSWORD",
+          "value": "${APP_PASSWORD}"
+        },
+        {
+          "key": "POSTGRES_USER",
+          "value": "tipi"
+        },
+        {
+          "key": "POSTGRES_DB",
+          "value": "immich"
+        },
+        {
+          "key": "PG_DATA",
+          "value": "/var/lib/postgresql/data"
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/db",
+          "containerPath": "/var/lib/postgresql/data",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        }
+      ],
+      "deploy": {
+        "resources": {
+          "limits": {
+            "cpus": "2.0",
+            "memory": "2048M"
+          }
+        }
+      },
+      "extraLabels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      }
+    }
+  ]
+}

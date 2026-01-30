@@ -1,0 +1,32 @@
+{
+  "name": "Immich with no ML",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 8128,
+  "id": "immich-lite",
+  "tipi_version": 1,
+  "version": "v2.5.0",
+  "categories": ["data", "photography"],
+  "description": "The usual Immich,  but with no machine learning. Perfect for limited resources home servers.",
+  "short_desc": "Immich Lite (no ML)",
+  "author": "Alex Tran (customized by BrunnoFe)",
+  "website": "https://immich.app/",
+  "source": "https://github.com/immich-app/immich",
+  "form_fields": [
+    {
+      "type": "random",
+      "label": "DB_PASSWORD",
+      "min": 32,
+      "env_variable": "DB_PASSWORD"
+    },
+    {
+      "type": "random",
+      "label": "JWT_SECRET",
+      "min": 32,
+      "env_variable": "JWT_SECRET"
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"],
+  "min_tipi_version": "4.5.0"
+}
