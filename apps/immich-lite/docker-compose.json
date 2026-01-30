@@ -1,59 +1,41 @@
 {
-  "schemaVersion": 2,
-  "services": [
-    {
-      "name": "immich_server_noml",
+  "version": "3.7",
+  "services": {
+    "immich": {
       "image": "ghcr.io/immich-app/immich-server:release",
-      "environment": [
-        {
-          "key": "NODE_ENV",
-          "value": "production"
-        },
-        {
-          "key": "DB_HOSTNAME",
-          "value": "immich-db"
-        },
-        {
-          "key": "DB_USERNAME",
-          "value": "tipi"
-        },
-        {
-          "key": "DB_PASSWORD",
-          "value": "${APP_PASSWORD}"
-        },
-        {
-          "key": "DB_DATABASE_NAME",
-          "value": "immich"
-        },
-        {
-          "key": "REDIS_HOSTNAME",
-          "value": "immich-redis"
-        },
-        {
-          "key": "IMMICH_MACHINE_LEARNING_ENABLED",
-          "value": "false"
-        }
-      ],
-      "internalPort": 2283,
+      "container_name": "immich_server_lite",
       "volumes": [
-        {
-          "hostPath": "/mnt/1TB_HDD/immich",
-          "containerPath": "/usr/src/app/upload",
-          "readOnly": false,
-          "shared": false,
-          "private": false
-        },
-        {
-          "hostPath": "/etc/localtime",
-          "containerPath": "/etc/localtime",
-          "readOnly": true,
-          "shared": false,
-          "private": false
-        }
+        "/mnt/1TB_HDD/immich:/usr/src/app/upload",
+        "/etc/localtime:/etc/localtime:ro"
       ],
+      "environment": {
+        "NODE_ENV": "production",
+        "DB_HOSTNAME": "immich-db",
+        "DB_USERNAME": "tipi",
+        "DB_PASSWORD": "${APP_PASSWORD}",
+        "DB_DATABASE_NAME": "immich",
+        "REDIS_HOSTNAME": "immich-redis",
+        "IMMICH_MACHINE_LEARNING_ENABLED": "false"
+      },
       "devices": [
         "/dev/dri:/dev/dri"
       ],
+      "depends_on": [
+        "immich-redis",
+        "immich-db"
+      ],
+      "networks": [
+        "tipi_main_network",
+        "default"
+      ],
+      "ports": [
+        "${APP_PORT}:2283"
+      ],
+      "labels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      },
+      "restart": "unless-stopped",
       "deploy": {
         "resources": {
           "limits": {
@@ -61,57 +43,43 @@
             "memory": "4096M"
           }
         }
-      },
-      "dependsOn": [
-        "immich-redis",
-        "immich-db"
-      ],
-      "extraLabels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
       }
     },
-    {
-      "name": "immich_redis_lite",
+    "immich-redis": {
       "image": "redis:6.2",
-      "healthCheck": {
+      "container_name": "immich_redis_lite",
+      "healthcheck": {
         "test": "redis-cli ping || exit 1"
       },
-      "extraLabels": {
+      "networks": [
+        "default"
+      ],
+      "labels": {
         "runtipi.managed": "true",
         "runtipi.appurn": "immich-lite"
-      }
+      },
+      "restart": "unless-stopped"
     },
-    {
-      "name": "immich_db_lite",
+    "immich-db": {
       "image": "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0",
-      "environment": [
-        {
-          "key": "POSTGRES_PASSWORD",
-          "value": "${APP_PASSWORD}"
-        },
-        {
-          "key": "POSTGRES_USER",
-          "value": "tipi"
-        },
-        {
-          "key": "POSTGRES_DB",
-          "value": "immich"
-        },
-        {
-          "key": "PG_DATA",
-          "value": "/var/lib/postgresql/data"
-        }
-      ],
+      "container_name": "immich_db_lite",
       "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/db",
-          "containerPath": "/var/lib/postgresql/data",
-          "readOnly": false,
-          "shared": false,
-          "private": false
-        }
+        "${APP_DATA_DIR}/data/db:/var/lib/postgresql/data"
       ],
+      "environment": {
+        "POSTGRES_PASSWORD": "${APP_PASSWORD}",
+        "POSTGRES_USER": "tipi",
+        "POSTGRES_DB": "immich",
+        "PG_DATA": "/var/lib/postgresql/data"
+      },
+      "networks": [
+        "default"
+      ],
+      "labels": {
+        "runtipi.managed": "true",
+        "runtipi.appurn": "immich-lite"
+      },
+      "restart": "unless-stopped",
       "deploy": {
         "resources": {
           "limits": {
@@ -119,11 +87,12 @@
             "memory": "2048M"
           }
         }
-      },
-      "extraLabels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
       }
     }
-  ]
+  },
+  "networks": {
+    "tipi_main_network": {
+      "external": true
+    }
+  }
 }
