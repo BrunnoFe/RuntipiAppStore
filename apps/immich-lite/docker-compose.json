@@ -7,8 +7,20 @@
       "container_name": "immich_server_lite",
       "restart": "unless-stopped",
       "volumes": [
-        "/mnt/1TB_HDD/immich:/usr/src/app/upload",
-        "/etc/localtime:/etc/localtime:ro"
+        {
+          "hostPath": "/mnt/1TB_HDD/immich",
+          "containerPath": "/usr/src/app/upload",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        },
+        {
+          "hostPath": "/etc/localtime",
+          "containerPath": "/etc/localtime",
+          "readOnly": true,
+          "shared": false,
+          "private": false
+        }
       ],
       "environment": {
         "NODE_ENV": "production",
@@ -60,7 +72,13 @@
       "container_name": "immich_db_lite",
       "restart": "unless-stopped",
       "volumes": [
-        "${APP_DATA_DIR}/data/db:/var/lib/postgresql/data"
+        {
+          "hostPath": "${APP_DATA_DIR}/data/db",
+          "containerPath": "/var/lib/postgresql/data",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        }
       ],
       "environment": {
         "POSTGRES_PASSWORD": "${APP_PASSWORD}",
