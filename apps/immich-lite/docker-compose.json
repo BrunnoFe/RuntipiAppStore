@@ -1,7 +1,7 @@
 {
-  "version": "3.7",
-  "services": {
-    "immich": {
+  "services": [
+    {
+      "name":"immich-lite",
       "image": "ghcr.io/immich-app/immich-server:release",
       "container_name": "immich_server_lite",
       "restart": "unless-stopped",
@@ -53,7 +53,8 @@
         }
       }
     },
-    "immich-db": {
+    {
+      "name":"immich_db_lite",
       "image": "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0",
       "container_name": "immich_db_lite",
       "restart": "unless-stopped",
@@ -89,7 +90,8 @@
         }
       }
     },
-    "immich-redis": {
+    {
+      "name":"immich-redis",
       "image": "redis:6.2",
       "container_name": "immich_redis_lite",
       "restart": "unless-stopped",
@@ -111,7 +113,7 @@
         }
       }
     }
-  },
+  ],
   "networks": {
     "tipi_main_network": {
       "external": true
