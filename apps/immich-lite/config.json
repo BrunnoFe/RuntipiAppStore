@@ -18,15 +18,26 @@
       "type": "random",
       "label": "DB_PASSWORD",
       "min": 32,
-      "env_variable": "DB_PASSWORD",
-      "required": false
+      "env_variable": "DB_PASSWORD"
     },
     {
       "type": "random",
       "label": "JWT_SECRET",
       "min": 32,
-      "env_variable": "JWT_SECRET",
-      "required": false
+      "env_variable": "JWT_SECRET"
+    },
+    {
+      "type": "random",
+      "label": "IMMICH_TYPESENSE_API_KEY",
+      "min": 32,
+      "env_variable": "IMMICH_TYPESENSE_API_KEY"
+    },
+    {
+      "type": "text",
+      "label": "Immich upload location path",
+      "hint": "The folder or drive localtion to save the uploaded photos/videos files.",
+      "required": true,
+      "env_variable": "UPLOAD_LOCATION"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],

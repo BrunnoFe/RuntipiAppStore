@@ -1,5 +1,4 @@
 {
-  "version": "3.7",
   "services": [
     {
       "name": "immich",
@@ -9,7 +8,7 @@
       "volumes": [
         {
           "type": "bind",
-          "hostPath": "/mnt/1TB_HDD/immich",
+          "hostPath": "${UPLOAD_LOCATION}",
           "containerPath": "/usr/src/app/upload",
           "readOnly": false,
           "shared": false,
@@ -24,21 +23,50 @@
           "private": false
         }
       ],
-      "environment": {
-        "NODE_ENV": "production",
-        "HOST": "0.0.0.0",
-        "DB_HOSTNAME": "immich-db",
-        "DB_USERNAME": "tipi",
-        "DB_PASSWORD": "${DB_PASSWORD}",
-        "DB_DATABASE_NAME": "immich",
-        "REDIS_HOSTNAME": "immich-redis",
-        "JWT_SECRET": "${JWT_SECRET}",
-        "IMMICH_MACHINE_LEARNING_ENABLED": "false",
-        "IMMICH_METRICS": "false"
-      },
+      "environment": [
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "DB_HOSTNAME",
+          "value": "immich-db"
+        },
+        {
+          "key": "DB_USERNAME",
+          "value": "tipi"
+        },
+        {
+          "key": "DB_PASSWORD",
+          "value": "${DB_PASSWORD}"
+        },
+        {
+          "key": "ENABLE_MAPBOX",
+          "value": "false"
+        },
+        {
+          "key": "DB_DATABASE_NAME",
+          "value": "immich"
+        },
+        {
+          "key": "REDIS_HOSTNAME",
+          "value": "immich-redis"
+        },
+        {
+          "key": "JWT_SECRET",
+          "value": "${JWT_SECRET}"
+        },
+        {
+          "key":"IMMICH_MACHINE_LEARNING_ENABLED",
+          "value":"false"
+        },
+        {
+          "key":"IMMICH_METRICS",
+          "value":"false"
+        }
+      ],
       "networks": [
-        "tipi_main_network",
-        "default"
+        "tipi_main_network"
       ],
       "depends_on": [
         "immich-redis",
@@ -47,12 +75,6 @@
       "devices": [
         "/dev/dri:/dev/dri"
       ],
-      "labels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite",
-        "traefik.enable": "true",
-        "traefik.http.services.immich-lite.loadbalancer.server.port": "2283"
-      },
       "logging": {
         "driver": "json-file",
         "options": {
@@ -84,19 +106,27 @@
           "private": false
         }
       ],
-      "environment": {
-        "POSTGRES_PASSWORD": "${DB_PASSWORD}",
-        "POSTGRES_USER": "tipi",
-        "POSTGRES_DB": "immich",
-        "PG_DATA": "/var/lib/postgresql/data"
-      },
-      "networks": [
-        "default"
+      "environment": [
+        {
+          "key": "POSTGRES_PASSWORD",
+          "value": "${DB_PASSWORD}"
+        },
+        {
+          "key": "POSTGRES_USER",
+          "value": "tipi"
+        },
+        {
+          "key": "POSTGRES_DB",
+          "value": "immich"
+        },
+        {
+          "key": "PG_DATA",
+          "value": "/var/lib/postgresql/data"
+        }
       ],
-      "labels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
-      },
+      "networks": [
+        "tipi_main_network"
+      ],
       "logging": {
         "driver": "json-file",
         "options": {
@@ -122,12 +152,8 @@
         "test": "redis-cli ping || exit 1"
       },
       "networks": [
-        "default"
+        "tipi_main_network"
       ],
-      "labels": {
-        "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
-      },
       "logging": {
         "driver": "json-file",
         "options": {
@@ -137,9 +163,6 @@
       }
     }
   ],
-  "networks": {
-    "tipi_main_network": {
-      "external": true
-    }
-  }
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json"
 }
