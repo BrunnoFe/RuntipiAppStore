@@ -1,12 +1,14 @@
 {
+  "version": "3.5",
   "services": [
     {
       "name": "dashdot-lite",
       "image": "mauricenino/dashdot:6.2.4",
       "container_name": "dashdot-lite",
       "isMain": true,
+      "restart": "unless-stopped",
       "internalPort": 3001,
-      "ports": "${APP_PORT}:3001",
+      "privileged": true,
       "environment":{
         "DASHDOT_SHOW_HOST":"false",
         "DASHDOT_SHOW_DASH_VERSION":"true",
@@ -25,7 +27,6 @@
           "private": false
         }
       ],
-      "privileged": true,
       "deploy": {
         "resources": {
           "limits": {
@@ -34,9 +35,6 @@
         }
       },
       "cpu_shares":"128",
-      "extraLabels": {
-        "runtipi.managed": true
-      },
       "networks": [
         "tipi_main_network"
       ],
