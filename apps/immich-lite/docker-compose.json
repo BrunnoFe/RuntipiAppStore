@@ -4,6 +4,8 @@
       "name": "immich",
       "image": "ghcr.io/immich-app/immich-server:release",
       "container_name": "immich_server_lite",
+      "isMain": true,
+      "internalPort": 2283,
       "restart": "unless-stopped",
       "volumes": [
         {
@@ -25,6 +27,7 @@
       ],
       "environment": {
         "NODE_ENV": "production",
+        "HOST": "0.0.0.0",
         "DB_HOSTNAME": "immich-db",
         "DB_USERNAME": "tipi",
         "DB_PASSWORD": "${DB_PASSWORD}",
