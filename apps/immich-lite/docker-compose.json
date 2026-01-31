@@ -38,6 +38,29 @@
       "networks": [
         "tipi_main_network"
       ],
+      "labels": {
+        "runtipi.managed": "true",
+        "traefik.enable": "true",
+        "traefik.http.middlewares.immich-lite-web-redirect.redirectscheme.scheme": "https",
+        "traefik.http.services.immich-lite.loadbalancer.server.port": "2283",
+        "traefik.http.routers.immich-lite-insecure.rule": "Host(`${APP_DOMAIN}`)",
+        "traefik.http.routers.immich-lite-insecure.entrypoints": "web",
+        "traefik.http.routers.immich-lite-insecure.service": "immich-lite",
+        "traefik.http.routers.immich-lite-insecure.middlewares": "immich-lite-web-redirect",
+        "traefik.http.routers.immich-lite.rule": "Host(`${APP_DOMAIN}`)",
+        "traefik.http.routers.immich-lite.entrypoints": "websecure",
+        "traefik.http.routers.immich-lite.service": "immich-lite",
+        "traefik.http.routers.immich-lite.tls.certresolver": "myresolver",
+        "traefik.http.routers.immich-lite-local-insecure.rule": "Host(`immich-lite.${LOCAL_DOMAIN}`)",
+        "traefik.http.routers.immich-lite-local-insecure.entrypoints": "web",
+        "traefik.http.routers.immich-lite-local-insecure.service": "immich-lite",
+        "traefik.http.routers.immich-lite-local-insecure.middlewares": "immich-lite-web-redirect",
+        "traefik.http.routers.immich-lite-local.rule": "Host(`immich-lite.${LOCAL_DOMAIN}`)",
+        "traefik.http.routers.immich-lite-local.entrypoints": "websecure",
+        "traefik.http.routers.immich-lite-local.service": "immich-lite",
+        "traefik.http.routers.immich-lite-local.tls": "true"
+
+      },
       "depends_on": [
         "immich-redis",
         "immich-db"
@@ -76,7 +99,7 @@
           "private": false
         }
       ],
-"environment": {
+      "environment": {
         "POSTGRES_PASSWORD": "${DB_PASSWORD}",
         "POSTGRES_USER": "tipi",
         "POSTGRES_DB": "immich",
@@ -85,6 +108,9 @@
       "networks": [
         "tipi_main_network"
       ],
+      "labels": {
+        "runtipi.managed": "true"
+      },
       "logging": {
         "driver": "json-file",
         "options": {
@@ -112,6 +138,9 @@
       "networks": [
         "tipi_main_network"
       ],
+      "labels": {
+        "runtipi.managed": "true"
+      },
       "logging": {
         "driver": "json-file",
         "options": {
