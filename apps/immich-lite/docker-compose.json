@@ -23,48 +23,18 @@
           "private": false
         }
       ],
-      "environment": [
-        {
-          "key": "NODE_ENV",
-          "value": "production"
-        },
-        {
-          "key": "DB_HOSTNAME",
-          "value": "immich-db"
-        },
-        {
-          "key": "DB_USERNAME",
-          "value": "tipi"
-        },
-        {
-          "key": "DB_PASSWORD",
-          "value": "${DB_PASSWORD}"
-        },
-        {
-          "key": "ENABLE_MAPBOX",
-          "value": "false"
-        },
-        {
-          "key": "DB_DATABASE_NAME",
-          "value": "immich"
-        },
-        {
-          "key": "REDIS_HOSTNAME",
-          "value": "immich-redis"
-        },
-        {
-          "key": "JWT_SECRET",
-          "value": "${JWT_SECRET}"
-        },
-        {
-          "key":"IMMICH_MACHINE_LEARNING_ENABLED",
-          "value":"false"
-        },
-        {
-          "key":"IMMICH_METRICS",
-          "value":"false"
-        }
-      ],
+      "environment": {
+        "NODE_ENV": "production",
+        "DB_HOSTNAME": "immich-db",
+        "DB_USERNAME": "tipi",
+        "DB_PASSWORD": "${DB_PASSWORD}",
+        "DB_DATABASE_NAME": "immich",
+        "REDIS_HOSTNAME": "immich-redis",
+        "JWT_SECRET": "${JWT_SECRET}",
+        "IMMICH_MACHINE_LEARNING_ENABLED": "false",
+        "IMMICH_METRICS": "false",
+        "ENABLE_MAPBOX": "false"
+      },
       "networks": [
         "tipi_main_network"
       ],
@@ -106,24 +76,12 @@
           "private": false
         }
       ],
-      "environment": [
-        {
-          "key": "POSTGRES_PASSWORD",
-          "value": "${DB_PASSWORD}"
-        },
-        {
-          "key": "POSTGRES_USER",
-          "value": "tipi"
-        },
-        {
-          "key": "POSTGRES_DB",
-          "value": "immich"
-        },
-        {
-          "key": "PG_DATA",
-          "value": "/var/lib/postgresql/data"
-        }
-      ],
+"environment": {
+        "POSTGRES_PASSWORD": "${DB_PASSWORD}",
+        "POSTGRES_USER": "tipi",
+        "POSTGRES_DB": "immich",
+        "PG_DATA": "/var/lib/postgresql/data"
+      },
       "networks": [
         "tipi_main_network"
       ],
@@ -162,7 +120,5 @@
         }
       }
     }
-  ],
-  "schemaVersion": 2,
-  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json"
+  ]
 }
