@@ -8,6 +8,7 @@
       "restart": "unless-stopped",
       "volumes": [
         {
+          "type": "bind",
           "hostPath": "/mnt/1TB_HDD/immich",
           "containerPath": "/usr/src/app/upload",
           "readOnly": false,
@@ -15,6 +16,7 @@
           "private": false
         },
         {
+          "type": "bind",
           "hostPath": "/etc/localtime",
           "containerPath": "/etc/localtime",
           "readOnly": true,
@@ -34,9 +36,6 @@
         "IMMICH_MACHINE_LEARNING_ENABLED": "false",
         "IMMICH_METRICS": "false"
       },
-      "ports": [
-        "8128:2283"
-      ],
       "networks": [
         "tipi_main_network",
         "default"
@@ -50,7 +49,9 @@
       ],
       "labels": {
         "runtipi.managed": "true",
-        "runtipi.appurn": "immich-lite"
+        "runtipi.appurn": "immich-lite",
+        "traefik.enable": "true",
+        "traefik.http.services.immich-lite.loadbalancer.server.port": "2283"
       },
       "logging": {
         "driver": "json-file",
@@ -75,6 +76,7 @@
       "restart": "unless-stopped",
       "volumes": [
         {
+          "type": "bind",
           "hostPath": "${APP_DATA_DIR}/data/db",
           "containerPath": "/var/lib/postgresql/data",
           "readOnly": false,

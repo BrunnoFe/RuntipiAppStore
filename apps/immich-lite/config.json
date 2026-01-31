@@ -18,13 +18,15 @@
       "type": "random",
       "label": "DB_PASSWORD",
       "min": 32,
-      "env_variable": "DB_PASSWORD"
+      "env_variable": "DB_PASSWORD",
+      "required": false
     },
     {
       "type": "random",
       "label": "JWT_SECRET",
       "min": 32,
-      "env_variable": "JWT_SECRET"
+      "env_variable": "JWT_SECRET",
+      "required": false
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
