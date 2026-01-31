@@ -1,12 +1,13 @@
 {
   "services": [
     {
-      "name": "immich",
+      "name": "immich-lite",
       "image": "ghcr.io/immich-app/immich-server:release",
       "container_name": "immich_server_lite",
       "isMain": true,
       "internalPort": 2283,
       "restart": "unless-stopped",
+      "ports": "${APP_PORT}:2283",
       "volumes": [
         {
           "type": "bind",
@@ -62,7 +63,6 @@
         "traefik.http.routers.immich-lite-local.entrypoints": "websecure",
         "traefik.http.routers.immich-lite-local.service": "immich-lite",
         "traefik.http.routers.immich-lite-local.tls": "true"
-
       },
       "depends_on": [
         "immich-redis",
