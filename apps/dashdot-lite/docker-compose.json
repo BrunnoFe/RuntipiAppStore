@@ -4,7 +4,7 @@
     {
       "name": "dashdot-lite",
       "image": "mauricenino/dashdot:6.2.4",
-      "container_name": "dashdot-lite",
+      "container_name": "dashdot_lite",
       "isMain": true,
       "restart": "unless-stopped",
       "internalPort": 3001,
@@ -21,10 +21,8 @@
       "volumes": [
         {
           "hostPath": "/",
-          "containerPath": "/mnt/host:ro",
-          "readOnly": true,
-          "shared": false,
-          "private": false
+          "containerPath": "/mnt/host",
+          "readOnly": true
         }
       ],
       "deploy": {
