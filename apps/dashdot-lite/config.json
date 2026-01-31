@@ -1,0 +1,19 @@
+{
+  "name": "Dash.-Lite",
+  "port": 8173,
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "id": "dashdot-lite",
+  "tipi_version": 27,
+  "version": "6.2.4",
+  "categories": ["utilities"],
+  "description": "dash. (or dashdot) is a modern server dashboard, running on the latest tech, designed with glassmorphism in mind. It is intended to be used for smaller VPS and private servers.",
+  "short_desc": "A simple, modern server dashboard, primarily used by smaller private server (modded to save resources).",
+  "author": "MauriceNino (modded bt BrunnoFe)",
+  "source": "https://github.com/MauriceNino/dashdot",
+  "website": "https://getdashdot.com/",
+  "form_fields": [],
+  "supported_architectures": ["arm64", "amd64"],
+  "min_tipi_version": "4.5.0"
+}
