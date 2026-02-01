@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "dashdot-lite",
-      "image": "mauricenino/dashdot:6.2.4",
+      "image": "mauricenino/dashdot:latest",
       "container_name": "dashdot_lite",
       "isMain": true,
       "restart": "unless-stopped",
