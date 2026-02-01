@@ -8,7 +8,7 @@
   "tipi_version": 1,
   "version": "latest",
   "categories": ["data", "photography"],
-  "description": "The usual Immich,  but with no machine learning. Perfect for limited resources home servers.",
+  "description": "The usual Immich, but with no machine learning. Perfect for limited resources home servers.",
   "short_desc": "Immich Lite (no ML)",
   "author": "Alex Tran (customized by BrunnoFe)",
   "website": "https://immich.app/",
