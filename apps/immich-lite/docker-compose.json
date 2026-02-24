@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "immich-lite",
-      "image": "ghcr.io/immich-app/immich-server:release",
+      "image": "ghcr.io/immich-app/immich-server:v2.5.6",
       "container_name": "immich_server_lite",
       "isMain": true,
       "internalPort": 2283,
